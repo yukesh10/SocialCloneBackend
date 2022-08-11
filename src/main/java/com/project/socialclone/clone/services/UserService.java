@@ -1,8 +1,8 @@
 package com.project.socialclone.clone.services;
 
 import com.project.socialclone.clone.model.AppUserModel;
-import com.project.socialclone.clone.entity.AppUser;
+import com.project.socialclone.clone.model.ResponseModel;
 
 public interface UserService {
-    AppUser registerUser(AppUserModel user);
+    ResponseModel registerUser(AppUserModel user);
 }

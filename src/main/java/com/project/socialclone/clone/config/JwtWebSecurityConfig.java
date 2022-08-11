@@ -1,6 +1,7 @@
 package com.project.socialclone.clone.config;
 
 import com.project.socialclone.clone.auth.JwtUnAuthorizedResponseAuthenticationEntryPoint;
+//import com.project.socialclone.clone.filter.JwtTokenAuthenticationFilter;
 import com.project.socialclone.clone.filter.JwtTokenAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

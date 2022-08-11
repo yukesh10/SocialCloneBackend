@@ -16,6 +16,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
@@ -32,6 +34,13 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         final String requestTokenHeader = request.getHeader("Authorization");
+        final String requestUri = request.getRequestURI();
+        final List<String> ignoreUri = Arrays.asList("/token", "/auth/register");
+
+        if (ignoreUri.contains(requestUri)){
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         String username = null;
         String jwtToken = null;
@@ -64,3 +73,4 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 }
+

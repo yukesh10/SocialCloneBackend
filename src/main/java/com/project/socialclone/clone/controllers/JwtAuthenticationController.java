@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class JwtAuthenticationController {
 
     @Autowired
@@ -36,10 +37,10 @@ public class JwtAuthenticationController {
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtTokenRequest authenticationRequest)
             throws AuthenticationException {
 
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+        authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
 
         final UserDetails userDetails = jwtInMemoryUserDetailsService
-                .loadUserByUsername(authenticationRequest.getUsername());
+                .loadUserByUsername(authenticationRequest.getEmail());
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
@@ -74,9 +75,9 @@ public class JwtAuthenticationController {
             Authentication auth = new UsernamePasswordAuthenticationToken(username, password);
             authenticationManager.authenticate(auth);
         } catch (DisabledException e) {
-            throw new AuthenticationException("USER_DISABLED", e);
+            throw new AuthenticationException("User is disabled!", e);
         } catch (BadCredentialsException e) {
-            throw new AuthenticationException("INVALID_CREDENTIALS", e);
+            throw new AuthenticationException("Invalid Credentials", e);
         }
     }
 }

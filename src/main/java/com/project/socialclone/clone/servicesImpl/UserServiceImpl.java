@@ -4,8 +4,10 @@ import com.project.socialclone.clone.exception.EmailAlreadyExistsException;
 import com.project.socialclone.clone.exception.PasswordDoesNotMatchException;
 import com.project.socialclone.clone.model.AppUserModel;
 import com.project.socialclone.clone.entity.AppUser;
+import com.project.socialclone.clone.model.ResponseModel;
 import com.project.socialclone.clone.repo.AppUserRepo;
 import com.project.socialclone.clone.services.UserService;
+import org.apache.coyote.Response;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,17 +27,21 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public AppUser registerUser(AppUserModel bean) {
+    public ResponseModel registerUser(AppUserModel bean) {
+
+        ResponseModel res = new ResponseModel();
 
         if (!StringUtils.hasLength(bean.getPassword()) ||
                 !StringUtils.hasLength(bean.getConfirmPassword()) ||
                 !bean.getPassword().equals(bean.getConfirmPassword())){
-            throw new PasswordDoesNotMatchException("The password and confirm password does not match");
+            res.setMessage("The password and confirm password does not match");
+            return res;
         }
 
         AppUser existingUser = appUserRepo.findByEmail(bean.getEmail());
         if (existingUser != null){
-            throw new EmailAlreadyExistsException("Provided email address already exists in the system");
+            res.setMessage("Provided email address already exists in the system");
+            return res;
         }
 
         AppUser user = new AppUser();
@@ -48,6 +54,9 @@ public class UserServiceImpl implements UserService {
 
         user = appUserRepo.save(user);
 
-        return user;
+        res.setObject(user);
+        res.setMessage("User created successfully!");
+        res.setSuccessful(true);
+        return res;
     }
 }

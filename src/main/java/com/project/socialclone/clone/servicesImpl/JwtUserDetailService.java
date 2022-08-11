@@ -29,7 +29,7 @@ public class JwtUserDetailService implements UserDetailsService {
                 .filter(user -> user.getEmail().equals(username)).findFirst();
 
         if (!findFirst.isPresent()) {
-            throw new UsernameNotFoundException(String.format("USER_NOT_FOUND '%s'.", username));
+            throw new UsernameNotFoundException(String.format("User not found '%s'.", username));
         }
 
         AppUser user = findFirst.get();
