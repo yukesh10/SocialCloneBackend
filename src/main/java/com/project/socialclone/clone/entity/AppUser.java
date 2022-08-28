@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USER_ID", nullable = false)
+    @Column(name = "USER_ID", nullable = false, unique = true)
     private Long userId;
 
     @Column(name = "FULL_NAME", nullable = false, length = 200)
