@@ -18,13 +18,29 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @GetMapping("/create")
+    @PostMapping("/create")
     private ResponseEntity<?> createPost(@RequestBody PostModel post){
         ResponseModel res = new ResponseModel();
         try {
             res = postService.createPost(post);
             if (res.isSuccessful()) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(res);
+            } else {
+                return ResponseEntity.badRequest().body(res);
+            }
+        } catch(Exception e){
+            res.setMessage(e.getMessage());
+            return ResponseEntity.badRequest().body(res);
+        }
+    }
+
+    @GetMapping("/getAll")
+    private ResponseEntity<?> getAllPost(){
+        ResponseModel res = new ResponseModel();
+        try {
+            res = postService.getAllPosts();
+            if (res.isSuccessful()) {
+                return ResponseEntity.ok().body(res);
             } else {
                 return ResponseEntity.badRequest().body(res);
             }

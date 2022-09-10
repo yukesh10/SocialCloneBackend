@@ -9,6 +9,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PostServiceImpl implements PostService {
 
@@ -32,11 +34,32 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public ResponseModel getUserPosts(Long userId) {
-        return null;
+       ResponseModel res = new ResponseModel();
+
+       List<Post> posts = postRepo.findByUserId(userId);
+
+       res.setObjectList(posts);
+       res.setMessage("Posts render successful!");
+       res.setSuccessful(true);
+
+       return res;
     }
 
     @Override
     public ResponseModel getAllVisiblePost(Long userId) {
         return null;
+    }
+
+    @Override
+    public ResponseModel getAllPosts() {
+        ResponseModel res = new ResponseModel();
+
+        List<Post> posts = postRepo.findAll();
+
+        res.setObjectList(posts);
+        res.setMessage("Posts render successful!");
+        res.setSuccessful(true);
+
+        return res;
     }
 }

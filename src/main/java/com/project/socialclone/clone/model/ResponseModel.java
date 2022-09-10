@@ -12,6 +12,6 @@ import java.util.List;
 public class ResponseModel {
     private String message;
     private Object object;
-    private List<Object> objectList;
+    private List<?> objectList;
     private boolean isSuccessful = false;
 }

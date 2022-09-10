@@ -10,4 +10,5 @@ public interface PostService {
     ResponseModel createPost(PostModel post);
     ResponseModel getUserPosts(Long userId);
     ResponseModel getAllVisiblePost(Long userId);
+    ResponseModel getAllPosts();
 }
